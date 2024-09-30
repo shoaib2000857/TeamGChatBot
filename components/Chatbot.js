@@ -2,26 +2,32 @@
 import { useState } from "react";
 import axios from "axios";
 
-const Chatbot = () => {
+export function Chatbot() {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
+  const [isTyping, setIsTyping] = useState(false);
+  const [error, setError] = useState(null);
 
   const sendMessage = async () => {
-    if (input.trim() === "") return;
-
-    const userMessage = { sender: "user", text: input };
-    setMessages([...messages, userMessage]);
-
     try {
-      const response = await axios.post("/api/chat", { message: input });
-      const botMessage = { sender: "bot", text: response.data.reply };
-      const dummyMessage = { sender: "bot", text: response.data.dummyMessage };
-      setMessages([...messages, userMessage, botMessage, dummyMessage]);
-    } catch (error) {
-      console.error("Error sending message:", error);
-    }
+      setIsTyping(true);
+      if (input.trim() === "") return;
 
-    setInput("");
+      const userMessage = { sender: "user", text: input };
+      setMessages([...messages, userMessage]);
+
+      const response = await axios.post("/api/chat", { message: input });
+      setInput("");
+      const dummyMessage = { sender: "Bot", text: response.data.dummyMessage };
+
+      setMessages([...messages, userMessage, dummyMessage]);
+    } catch (error) {
+      setError("Something went wrong. Please try again later.");
+      console.error("Error sending message:", error);
+    } finally {
+      setInput("");
+      setIsTyping(false);
+    }
   };
 
   return (
@@ -31,6 +37,9 @@ const Chatbot = () => {
           Gemini AI Chatbot
         </h2>
         <div className="flex flex-col space-y-4 mb-4">
+          {error && (
+            <div className="bg-red-500 text-white p-2 rounded-lg">{error}</div>
+          )}
           {messages.map((msg, index) => (
             <div key={index} className="flex flex-col">
               <div
@@ -57,6 +66,8 @@ const Chatbot = () => {
         <div className="flex space-x-2">
           <input
             type="text"
+            autoFocus
+            readOnly={isTyping}
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyPress={(e) => e.key === "Enter" && sendMessage()}
@@ -64,15 +75,14 @@ const Chatbot = () => {
             placeholder="Type your message..."
           />
           <button
+            disabled={isTyping}
             onClick={sendMessage}
             className="p-2 bg-metallic-dark text-white rounded-lg hover:bg-metallic-hover"
           >
-            Send
+            {isTyping ? "Sending..." : "Send"}
           </button>
         </div>
       </div>
     </div>
   );
-};
-
-export default Chatbot;
+}
