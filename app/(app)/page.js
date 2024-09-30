@@ -1,6 +1,6 @@
 import { Chatbot } from "@/components/Chatbot";
 
-export default function Home() {
+export default function Page() {
   return (
     <div>
       <Chatbot />
