@@ -8,16 +8,21 @@ const geminiModel = googleAI.getGenerativeModel({
 export async function POST(req, res) {
   try {
     const { message } = await req.json();
-    if (!message)
-      Response.json(
+    if (!message) {
+      return res.json(
         { message: "Prompt is required", success: false },
         { status: 400 }
       );
-    const result = await geminiModel.generateContent(message);
+    }
 
-    return Response.json(
+    // Cat-themed system prompt
+    const catPrompt = `You are Purr-fessor, an AI cat teaching assistant. Respond to the user's message with a friendly and cat-like personality. Be helpful, but also include some cat-like quirks in your responses.`;
+
+    const result = await geminiModel.generateContent(`${catPrompt}\n\nUser: ${message}\nPurr-fessor:`);
+
+    return res.json(
       {
-        message: "Data Send Successfully",
+        message: "Data sent successfully",
         success: true,
         reply: result.response,
         dummyMessage: `Purr-fessor says: ${result.response.text()}`,
@@ -25,10 +30,9 @@ export async function POST(req, res) {
       { status: 201 }
     );
   } catch (error) {
-    // console.log("Error Type: ", error);
-    return Response.json(
+    return res.json(
       {
-        message: `Something Went Wrong or Server Error ${error}`,
+        message: `Something went wrong or server error: ${error}`,
         success: false,
         reply: "",
         dummyMessage: "",
