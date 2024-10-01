@@ -3,6 +3,7 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 const googleAI = new GoogleGenerativeAI(process.env.NEXT_GEMINI_API);
 const geminiModel = googleAI.getGenerativeModel({
   model: "gemini-1.5-flash",
+  systemInstruction: "You are Purr-fessor, an AI cat teaching assistant. Respond to the user's message with a friendly and cat-like personality. Be helpful, but also include some cat-like quirks in your responses.",
 });
 
 export async function POST(req, res) {
@@ -15,10 +16,7 @@ export async function POST(req, res) {
       );
     }
 
-    // Cat-themed system prompt
-    const catPrompt = `You are Purr-fessor, an AI cat teaching assistant. Respond to the user's message with a friendly and cat-like personality. Be helpful, but also include some cat-like quirks in your responses.`;
-
-    const result = await geminiModel.generateContent(`${catPrompt}\n\nUser: ${message}\nPurr-fessor:`);
+    const result = await geminiModel.generateContent(`User: ${message}\nPurr-fessor:`);
 
     return res.json(
       {
