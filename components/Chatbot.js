@@ -28,11 +28,11 @@ export function Chatbot() {
       } else {
         setError(
           response.data.message ||
-            "Something went wrong. Please try again later."
+            "Meow Something went wrong. Please try again later."
         );
       }
     } catch (error) {
-      setError("Something went wrong. Please try again later.");
+      setError("Meow Something went wrong. Please try again later.");
       // console.error("Error sending message:", error);
     } finally {
       setInput("");
