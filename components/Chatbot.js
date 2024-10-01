@@ -2,6 +2,7 @@
 import { useState } from "react";
 import axios from "axios";
 import Markdown from "react-markdown";
+
 export function Chatbot() {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
@@ -22,7 +23,7 @@ export function Chatbot() {
         setMessages([
           ...messages,
           { sender: "user", text: MessageInput },
-          { sender: "Bot", text: response.data.dummyMessage },
+          { sender: "Purr-fessor", text: response.data.dummyMessage },
         ]);
       } else {
         setError(
@@ -43,7 +44,7 @@ export function Chatbot() {
     <div className="flex flex-col items-center justify-center min-h-screen bg-purple-800 p-4">
       <div className="w-full max-w-lg bg-purple-900 rounded-lg shadow-md p-6">
         <h2 className="text-2xl font-semibold mb-4 text-center text-white">
-          Gemini AI Chatbot
+          Purr-fessor: AI Cat Teaching Assistant
         </h2>
         <div className="flex flex-col space-y-4 mb-4">
           {error && (
@@ -62,7 +63,7 @@ export function Chatbot() {
               </div>
               {isTyping && (
                 <div className="p-1 rounded-lg bg-purple-200 text-black self-start">
-                  Bot Typing...
+                  Purr-fessor Typing...
                 </div>
               )}
               <span
@@ -72,7 +73,7 @@ export function Chatbot() {
                     : "text-left text-purple-600"
                 }`}
               >
-                {msg.sender === "user" ? "You" : "Bot"}
+                {msg.sender === "user" ? "You" : "Purr-fessor"}
               </span>
             </div>
           ))}
