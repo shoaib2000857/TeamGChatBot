@@ -5,21 +5,15 @@ const geminiModel = googleAI.getGenerativeModel({
   model: "gemini-1.5-flash",
 });
 
-const systemPrompt = "You are a friendly and helpful cat teaching assistant. Your goal is to provide clear and engaging explanations to students.";
-
 export async function POST(req, res) {
   try {
     const { message } = await req.json();
-    if (!message) {
-      return Response.json(
+    if (!message)
+      Response.json(
         { message: "Prompt is required", success: false },
         { status: 400 }
       );
-    }
-
-    const result = await geminiModel.generateContent({
-      prompt: `${systemPrompt}\n${message}`,
-    });
+    const result = await geminiModel.generateContent(message);
 
     return Response.json(
       {
