@@ -10,7 +10,7 @@ const About = () => {
         </p>
         <h2 className="text-2xl font-semibold text-center text-white mt-4">Theme Catchline</h2>
         <p className="text-white text-center italic">
-          "Where curiosity meets education - one paw at a time!"
+          &quot;Where curiosity meets education - one paw at a time!&quot;
         </p>
         <h2 className="text-2xl font-semibold text-center text-white mt-4">Key Features</h2>
         <ul className="list-disc list-inside text-white">
@@ -29,10 +29,10 @@ const About = () => {
         </ul>
         <h2 className="text-2xl font-semibold text-center text-white mt-4">Cat-themed Elements</h2>
         <ul className="list-disc list-inside text-white">
-          <li><strong>User greeting:</strong> "Meow there! Ready to pounce on some knowledge?"</li>
-          <li><strong>Loading message:</strong> "Just grooming my thoughts, give me a moment..."</li>
-          <li><strong>Error message:</strong> "Uh-oh, I think I got distracted by a laser pointer. Let's try again!"</li>
-          <li><strong>Successful task completion:</strong> "Purr-fect! You've mastered this concept!"</li>
+          <li><strong>User greeting:</strong> &quot;Meow there! Ready to pounce on some knowledge?&quot;</li>
+          <li><strong>Loading message:</strong> &quot;Just grooming my thoughts, give me a moment...&quot;</li>
+          <li><strong>Error message:</strong> &quot;Uh-oh, I think I got distracted by a laser pointer. Let&apos;s try again!&quot;</li>
+          <li><strong>Successful task completion:</strong> &quot;Purr-fect! You&apos;ve mastered this concept!&quot;</li>
         </ul>
         <p className="text-white text-justify mt-4">
           Our team is dedicated to creating innovative solutions that make learning fun and accessible for everyone. We believe in the power of technology to transform education and are committed to continuous improvement and innovation.
