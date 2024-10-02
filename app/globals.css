@@ -1,7 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-z
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
@@ -18,10 +18,38 @@ body {
   color: var(--foreground);
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  margin: 0;
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
+}
+
+.header {
+  position: sticky;
+  top: 0;
+  background-color: inherit;
+  z-index: 10;
+  padding-bottom: 1rem;
+}
+
+.chat-messages {
+  flex-grow: 1;
+  overflow-y: auto;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+#root, .App {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }

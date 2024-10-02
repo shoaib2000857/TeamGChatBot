@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import Markdown from "react-markdown";
 
@@ -8,6 +8,25 @@ export function Chatbot() {
   const [input, setInput] = useState("");
   const [isTyping, setIsTyping] = useState(false);
   const [error, setError] = useState(null);
+  const messagesEndRef = useRef(null);
+
+  const loadingMessages = [
+    "Just grooming my thoughts, give me a moment...",
+    "Pawsing to think...",
+    "Fetching some purr-fect knowledge...",
+    "Hold on, sharpening my claws on this topic...",
+  ];
+
+  const errorMessages = [
+    "Uh-oh, I think I got distracted by a laser pointer. Let's try again!",
+    "Oops, I knocked over my water bowl. Let's retry!",
+    "Meow-rror! Something went wrong. Please try again.",
+    "Hiss-terical error! Let's give it another shot.",
+  ];
+
+  const getRandomMessage = (messagesArray) => {
+    return messagesArray[Math.floor(Math.random() * messagesArray.length)];
+  };
 
   // Load messages from sessionStorage when the component mounts
   useEffect(() => {
@@ -22,7 +41,12 @@ export function Chatbot() {
   useEffect(() => {
     console.log("Saving messages to sessionStorage:", messages);
     sessionStorage.setItem("chatMessages", JSON.stringify(messages));
+    scrollToBottom();
   }, [messages]);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
 
   const sendMessage = async () => {
     try {
@@ -42,31 +66,45 @@ export function Chatbot() {
       if (response.data.success) {
         setMessages((prevMessages) => [
           ...prevMessages,
-          { sender: "user", text: MessageInput },
           { sender: "Purr-fessor", text: response.data.dummyMessage },
         ]);
       } else {
         setError(
           response.data.message ||
-            "Meow Something went wrong. Please try again later."
+            getRandomMessage(errorMessages)
         );
       }
     } catch (error) {
-      setError("Meow Something went wrong. Please try again later.");
+      setError(getRandomMessage(errorMessages));
       // console.error("Error sending message:", error);
     } finally {
       setInput("");
       setIsTyping(false);
+      scrollToBottom(); // Ensure scroll to bottom after setting isTyping to false
     }
+  };
+
+  const clearChatHistory = () => {
+    setMessages([]);
+    sessionStorage.removeItem("chatMessages");
+    scrollToBottom(); // Ensure scroll to bottom after clearing chat history
   };
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-purple-800 p-4">
-      <div className="w-full max-w-2xl bg-purple-900 rounded-lg shadow-md p-6 flex flex-col space-y-4">
-        <h2 className="text-2xl font-semibold mb-4 text-center text-white">
-          Purr-fessor: AI Cat Teaching Assistant
-        </h2>
-        <div className="flex flex-col space-y-4 overflow-y-auto max-h-96">
+      <div className="relative w-full max-w-2xl bg-purple-900 rounded-lg shadow-md p-6 flex flex-col space-y-4 h-full">
+        <div className="header flex justify-between items-center mb-4 sticky top-0 bg-purple-900 z-10">
+          <h2 className="text-2xl font-semibold text-center text-white">
+            Purr-fessor: AI Cat Teaching Assistant
+          </h2>
+          <button
+            onClick={clearChatHistory}
+            className="p-2 bg-red-500 text-white rounded-lg hover:bg-red-700 text-sm"
+          >
+            Clear Chat History
+          </button>
+        </div>
+        <div className="chat-messages flex flex-col space-y-4 overflow-y-auto flex-grow">
           {error && (
             <div className="bg-red-500 text-white p-2 rounded-lg">{error}</div>
           )}
@@ -92,11 +130,12 @@ export function Chatbot() {
               </span>
               {isTyping && index === messages.length - 1 && (
                 <div className="p-1 rounded-lg bg-purple-200 text-black self-start">
-                  Purr-fessor is typing...
+                  {getRandomMessage(loadingMessages)}
                 </div>
               )}
             </div>
           ))}
+          <div ref={messagesEndRef} />
         </div>
         <div className="flex space-x-2 items-center">
           <input

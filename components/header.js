@@ -11,7 +11,7 @@ const Header = () => {
     { name: "Contact", href: "/contact" },
   ];
   return (
-    <nav className="shadow-md bg-purple-950 text-green-50">
+    <nav className="shadow-md bg-purple-950 text-green-50 sticky top-0 z-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex items-center">
