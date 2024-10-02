@@ -1,8 +1,9 @@
 import "./globals.css";
 
 export const metadata = {
-  title: "Gemini AI ChatBot",
-  description: "Google GEN AI Exchange Hackathon IITM BS Team G",
+  title: "Purr-fessor: AI Cat Teaching Assistant",
+  description:
+    "Purr-fessor is an AI-powered teaching assistant chatbot designed to make learning both fun and engaging. With its adorable feline personality, Purr-fessor brings a playful and charming twist to education, offering academic support, study tips, and constant encouragement all with a dash of cat-inspired charisma! 🐱📚",
 };
 
 export default function RootLayout({ children }) {
