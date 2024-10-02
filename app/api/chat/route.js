@@ -1,21 +1,35 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
+import { NextResponse } from 'next/server';
 
 const googleAI = new GoogleGenerativeAI(process.env.NEXT_GEMINI_API);
 const geminiModel = googleAI.getGenerativeModel({
   model: "gemini-1.5-flash",
 });
 
-export async function POST(req, res) {
+export async function POST(req) {
   try {
-    const { message } = await req.json();
-    if (!message)
-      Response.json(
+    const { message, conversation } = await req.json();
+    if (!message) {
+      return NextResponse.json(
         { message: "Prompt is required", success: false },
         { status: 400 }
       );
-    const result = await geminiModel.generateContent(message);
+    }
 
-    return Response.json(
+    // System prompt to set the context for the AI
+    const systemPrompt = `
+      You are Purr-Fessor, an AI cat teaching assistant. 
+      Respond in a friendly, helpful, and educational manner. 
+      Also include some motivational and inspirational quotes ocassionally.
+      Be patient, encouraging, and incorporate cat-like behavior and language. 
+      Your goal is to assist and educate users in a fun and engaging way.
+    `;
+
+    // Combine the system prompt with the conversation history
+    const conversationHistory = [systemPrompt, ...conversation.map(msg => `${msg.sender}: ${msg.text}`)].join("\n");
+    const result = await geminiModel.generateContent(conversationHistory);
+
+    return NextResponse.json(
       {
         message: "Data Send Successfully",
         success: true,
@@ -26,7 +40,7 @@ export async function POST(req, res) {
     );
   } catch (error) {
     // console.log("Error Type: ", error);
-    return Response.json(
+    return NextResponse.json(
       {
         message: `Meow Something Went Wrong or Server Error ${error}`,
         success: false,
