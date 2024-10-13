@@ -1,3 +1,4 @@
+import { NextAuthProvider } from "./sessionProvider";
 import "./globals.css";
 
 export const metadata = {
@@ -9,7 +10,9 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className="bg-purple-500 text-white">{children}</body>
+      <NextAuthProvider>
+        <body className="bg-purple-500 text-white">{children}</body>
+      </NextAuthProvider>
     </html>
   );
 }
