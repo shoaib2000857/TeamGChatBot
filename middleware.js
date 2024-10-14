@@ -19,7 +19,7 @@ export async function middleware(request) {
   }
 
   // if (!token && (pathname == "/" || pathname == "/profile")) {
-  f (!token && (pathname == "/profile")) {
+  if (!token && (pathname == "/profile")) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
 
