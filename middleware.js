@@ -18,7 +18,8 @@ export async function middleware(request) {
     return NextResponse.redirect(new URL("/", request.url));
   }
 
-  if (!token && (pathname == "/" || pathname == "/profile")) {
+  // if (!token && (pathname == "/" || pathname == "/profile")) {
+  f (!token && (pathname == "/profile")) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
 
