@@ -26,7 +26,7 @@ const Contact = () => {
           ></textarea>
           <button
             type="submit"
-            className="p-2.5 bg-metallic-dark text-white rounded-lg hover:bg-metallic-hover"
+            className="p-2.5 bg-green-500 text-white rounded-lg hover:bg-green-700"
           >
             Send Message
           </button>
